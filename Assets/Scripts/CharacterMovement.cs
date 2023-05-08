@@ -15,11 +15,16 @@ public class CharacterMovement : MonoBehaviour
     public VerticalState state2;
     Rigidbody rb;
     [SerializeField] private Vector3 rbVelLimit;
-    [SerializeField] private float speed, jumoForce;
+    public  float speed, jumoForce;
     [SerializeField] bool slide;
     public PhysicMaterial pm;
-  
+
     // Start is called before the first frame update
+    private void Awake()
+    {
+        instance = this;
+
+    }
     void Start()
     {
         Camera.main.aspect = 18 /9;
@@ -50,7 +55,7 @@ public class CharacterMovement : MonoBehaviour
 
         // when it is on the ground
         else if (collision.gameObject.layer == 6 && collision.transform.tag == "ground")
-        { state2 = VerticalState.ground;
+        { state2 = VerticalState.ground;slide = false;
         }
         
     }
@@ -60,12 +65,14 @@ public class CharacterMovement : MonoBehaviour
         {
             if (collision.transform.name == "roof")
             { 
-                state2 = VerticalState.ground; 
+                state2 = VerticalState.ground;
+                slide = false;
             }
             else if (collision.transform.name == "wallben")
             {
                 state2 = VerticalState.wallben;
-                rb.velocity = Vector3.zero; 
+                rb.velocity = Vector3.zero;
+                slide = false;
                 speed = 0;
 
             }
@@ -84,6 +91,10 @@ public class CharacterMovement : MonoBehaviour
         // how the jump is detected so no second jump is possible in the air
         if (collision.gameObject.layer == 6)
         { state2 = VerticalState.air; }
+        if (state2 == VerticalState.wall && collision.transform.tag == "wall") 
+        {
+            slide = false;
+        }
 
     }
     // Update is called once per frame
@@ -95,7 +106,7 @@ public class CharacterMovement : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
         {
-            if (state2 == VerticalState.wall) 
+            if (state2 == VerticalState.wallben) 
             {
                 rb.AddForce(jumoForce * Time.deltaTime * new Vector3(0, 1, 0));
                 
@@ -104,19 +115,22 @@ public class CharacterMovement : MonoBehaviour
             {
                 if (slide) { slide = false; }
                 if (state2 == VerticalState.wall)
+
                 {
 
                     if (state == HorizontalState.left) state = HorizontalState.right;
                     else { state = HorizontalState.left; }
+
+                    speed = GameManager.Instamce.originalSpeed;
                 }
 
                 switch (state)
                 {
                     case HorizontalState.left:
-                        rb.AddForce(jumoForce * Time.deltaTime * new Vector3(-0.1f, 1, 0));
+                        rb.AddForce(jumoForce * Time.deltaTime * new Vector3(-0.2f, 1, 0));
                         break;
                     case HorizontalState.right:
-                        rb.AddForce(jumoForce * Time.deltaTime * new Vector3(0.1f, 1, 0));
+                        rb.AddForce(jumoForce * Time.deltaTime * new Vector3(0.2f, 1, 0));
 
                         break;
 

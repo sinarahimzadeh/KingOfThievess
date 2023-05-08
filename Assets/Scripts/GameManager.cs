@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour
     public enum GameState {pregame, game ,finish}
     public GameState _gameState;
     public TextMeshProUGUI tp;
+    public float originalSpeed;
     private void Awake()
     {
+        originalSpeed = CharacterMovement.instance.speed;
         Instamce = this;
     }
     // Start is called before the first frame update
