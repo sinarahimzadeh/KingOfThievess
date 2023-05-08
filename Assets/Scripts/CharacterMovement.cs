@@ -4,18 +4,20 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+
 public class CharacterMovement : MonoBehaviour
 {
     public static CharacterMovement instance; 
     public enum HorizontalState {right , left  }
-   public HorizontalState state;
+     public HorizontalState state;
 
     public enum VerticalState { ground, wall , air , wallben }
     public VerticalState state2;
     Rigidbody rb;
+    [SerializeField] private Vector3 rbVelLimit;
     [SerializeField] private float speed, jumoForce;
     [SerializeField] bool slide;
-    [SerializeField] PhysicMaterial pm;
+    public PhysicMaterial pm;
   
     // Start is called before the first frame update
     void Start()
@@ -49,7 +51,6 @@ public class CharacterMovement : MonoBehaviour
         // when it is on the ground
         else if (collision.gameObject.layer == 6 && collision.transform.tag == "ground")
         { state2 = VerticalState.ground;
-            rb.velocity = Vector3.zero; 
         }
         
     }
@@ -63,7 +64,8 @@ public class CharacterMovement : MonoBehaviour
             }
             else if (collision.transform.name == "wallben")
             {
-                state2 = VerticalState.wallben; rb.velocity = Vector3.zero;
+                state2 = VerticalState.wallben;
+                rb.velocity = Vector3.zero; 
                 speed = 0;
 
             }
@@ -89,7 +91,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (slide == true) { pm.dynamicFriction = 50; }
         if (slide == false) { pm.dynamicFriction = 0.6f; }
-
+      //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
 
         if(Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
         {
