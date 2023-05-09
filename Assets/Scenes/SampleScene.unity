@@ -254,8 +254,8 @@ MonoBehaviour:
   state: 0
   state2: 0
   rbVelLimit: {x: 0, y: 100, z: 0}
-  speed: 1
-  jumoForce: 300
+  speed: 2
+  jumoForce: 500
   slide: 0
   pm: {fileID: 13400000, guid: 16f63cef6523b034f9586c9624c6b77a, type: 2}
 --- !u!1 &59796392

@@ -98,9 +98,9 @@ public class CharacterMovement : MonoBehaviour
 
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (slide == true) { pm.dynamicFriction = 50; }
+        if (slide == true) { pm.dynamicFriction = 20; }
         if (slide == false) { pm.dynamicFriction = 0.6f; }
       //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
 
@@ -108,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
         {
             if (state2 == VerticalState.wallben) 
             {
-                rb.AddForce(jumoForce * new Vector3(0, 1, 0));
+                rb.AddForce(jumoForce * new Vector3(0, .5f, 0));
                 
             }
             else
@@ -127,10 +127,10 @@ public class CharacterMovement : MonoBehaviour
                 switch (state)
                 {
                     case HorizontalState.left:
-                        rb.AddForce(jumoForce  * new Vector3(-0.2f, 1, 0));
+                        rb.AddForce(jumoForce  * new Vector3(-0.2f, .5f, 0));
                         break;
                     case HorizontalState.right:
-                        rb.AddForce(jumoForce  * new Vector3(0.2f, 1, 0));
+                        rb.AddForce(jumoForce  * new Vector3(0.2f, .5f, 0));
 
                         break;
 
