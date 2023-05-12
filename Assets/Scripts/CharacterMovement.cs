@@ -59,6 +59,10 @@ public class CharacterMovement : MonoBehaviour
         }
         
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 6&&collision.transform.tag=="wall")
@@ -100,11 +104,11 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (slide == true) { pm.dynamicFriction = 20; }
+        if (slide == true) { pm.dynamicFriction = 10; }
         if (slide == false) { pm.dynamicFriction = 0.6f; }
       //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
 
-        if(Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
+        if (Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
         {
             if (state2 == VerticalState.wallben) 
             {

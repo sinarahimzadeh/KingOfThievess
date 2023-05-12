@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameState _gameState;
     public TextMeshProUGUI tp;
     public float originalSpeed;
+    public int Score;
     private void Awake()
     {
         originalSpeed = CharacterMovement.instance.speed;
