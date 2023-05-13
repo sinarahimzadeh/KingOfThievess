@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; 
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,10 +26,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tp.text = CharacterMovement.instance.state2.ToString() + ",,," +CharacterMovement.instance.pm.dynamicFriction.ToString();
+        // tp.text = CharacterMovement.instance.state2.ToString() + ",,," +CharacterMovement.instance.pm.dynamicFriction.ToString();
+        tp.text = "Coins:" + Score.ToString();
         if (Input.GetMouseButtonDown(0)) 
         {
             _gameState = GameState.game;
         }
+    }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(0);
     }
 }
