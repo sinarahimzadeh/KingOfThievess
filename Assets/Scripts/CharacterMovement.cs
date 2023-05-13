@@ -19,6 +19,7 @@ public class CharacterMovement : MonoBehaviour
     public  float speed, jumoForce;
     [SerializeField] bool slide;
     public PhysicMaterial pm;
+    [SerializeField] Transform breakableThief;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -37,6 +38,8 @@ public class CharacterMovement : MonoBehaviour
         if (other.transform.tag == "saw") 
         {
             GameManager.Instamce._gameState = GameManager.GameState.finish;
+            Instantiate(breakableThief,this.transform.position,Quaternion.identity);
+            this.gameObject.SetActive(false);
         }
     }
     private void OnCollisionStay(Collision collision)

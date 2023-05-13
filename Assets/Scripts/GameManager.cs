@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public float originalSpeed;
     public int Score,timer;
     public float counter;
+    [SerializeField] private GameObject panel;
     private void Awake()
     {
         counter = 90; 
@@ -44,19 +45,24 @@ public class GameManager : MonoBehaviour
             _gameState = GameState.game;
         }
         if (_gameState == GameState.finish)     
-          {
+        {
+            Invoke("Die",1);
             
         }
         if (timer == 0) { Invoke("Finish", 3); }
     }
-
+    void Die() 
+    {
+        panel.SetActive(true);
+        Invoke("Finish", 2);
+    }
     public void Reset()
     {
         SceneManager.LoadScene(1);
     }
     public void Finish()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
 
     }
 }
