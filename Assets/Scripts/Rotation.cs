@@ -10,7 +10,7 @@ public class Rotation : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private GameObject currentSpawner,coinParticle;
     // Update is called once per frame
-
+    
     private void OnTriggerStay(Collider other)
     {
         if (other.transform.tag == "spawner") 

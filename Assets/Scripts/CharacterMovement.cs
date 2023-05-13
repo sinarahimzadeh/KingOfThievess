@@ -39,7 +39,7 @@ public class CharacterMovement : MonoBehaviour
         {
             foreach (ContactPoint contact in collision.contacts)
             {
-                GameManager.Instamce.Score = contact.otherCollider.bounds.size.y;
+               
 
                 if (contact.normal == Vector3.up)
 
@@ -82,7 +82,6 @@ public class CharacterMovement : MonoBehaviour
 
             foreach (ContactPoint contact in collision.contacts)
             {
-                GameManager.Instamce.Score = contact.otherCollider.bounds.size.y;
 
                 if (contact.normal == Vector3.up)
 
