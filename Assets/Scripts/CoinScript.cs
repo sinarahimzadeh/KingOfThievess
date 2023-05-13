@@ -11,15 +11,19 @@ public class CoinScript : MonoBehaviour
     public bool spawned;
     void Start()
     {
-        InvokeRepeating("Spawn",0.5f,Random.Range(2,spawnTime));
+
+        InvokeRepeating("Spawn", Random.Range(0, spawnTime), Random.Range(2,spawnTime));
     }
 
     public void Spawn() 
     {
-        if (CurrentCoin==null) 
+        if (!spawned) 
         {
-            CurrentCoin= Instantiate(Coin, this.transform.position,Quaternion.identity);
+            Instantiate(Coin, this.transform.position,Coin.transform.rotation);
+
+            spawned = true;
         }
+        
     }
 
     // Update is called once per frame
