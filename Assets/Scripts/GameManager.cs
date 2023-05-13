@@ -10,14 +10,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instamce;
     public enum GameState {pregame, game ,finish}
     public GameState _gameState;
-    public TextMeshProUGUI tp,tpTimer;
+    public TextMeshProUGUI tp,tpTimer,finalScore;
     public float originalSpeed;
     public int Score,timer;
-    public float counter;
+    public float counter,initialCounter;
     [SerializeField] private GameObject panel;
     private void Awake()
     {
-        counter = 90; 
+        initialCounter = counter;
         originalSpeed = CharacterMovement.instance.speed;
         Instamce = this;
     }
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         tpTimer.text = timer.ToString();
         if (Input.GetMouseButtonDown(0)) 
         {
-            if(counter<=87)
+            if(counter<=initialCounter-1)
             _gameState = GameState.game;
         }
         if (_gameState == GameState.finish)     
@@ -49,11 +49,12 @@ public class GameManager : MonoBehaviour
             Invoke("Die",1);
             
         }
-        if (timer == 0) { Invoke("Finish", 3); }
+        if (timer == 2) { Invoke("Finish", 3); }
     }
     void Die() 
     {
         panel.SetActive(true);
+        finalScore.text ="SCORE :" + Score.ToString();
         Invoke("Finish", 2);
     }
     public void Reset()
