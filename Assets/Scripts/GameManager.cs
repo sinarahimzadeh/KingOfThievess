@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instamce;
     public enum GameState {pregame, game ,finish}
     public GameState _gameState;
-    public TextMeshProUGUI tp;
+    public TextMeshProUGUI tp,tpTimer;
     public float originalSpeed;
     public int Score,timer;
     public float counter;
@@ -34,17 +34,29 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         counter -= Time.deltaTime;
+        timer = Convert.ToInt32(counter);
        //  tp.text = CharacterMovement.instance.state2.ToString();
         tp.text = "Coins:" + Score.ToString();
+        tpTimer.text = timer.ToString();
         if (Input.GetMouseButtonDown(0)) 
         {
             if(counter<=87)
             _gameState = GameState.game;
         }
+        if (_gameState == GameState.finish)     
+       {
+            
+        }
+        if (timer == 0) { Invoke("Finish", 3); }
     }
 
     public void Reset()
     {
         SceneManager.LoadScene(1);
+    }
+    public void Finish()
+    {
+        SceneManager.LoadScene(1);
+
     }
 }
