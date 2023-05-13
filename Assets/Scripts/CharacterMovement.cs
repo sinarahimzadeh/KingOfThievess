@@ -106,8 +106,8 @@ public class CharacterMovement : MonoBehaviour
     {
         if (slide == true) { pm.dynamicFriction = 10; }
         if (slide == false) { pm.dynamicFriction = 0.6f; }
-      //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
-
+        //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
+        if (state2 == VerticalState.ground) { speed = GameManager.Instamce.originalSpeed; }
         if (Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
         {
             if (state2 == VerticalState.wallben) 
