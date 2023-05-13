@@ -39,6 +39,8 @@ public class CharacterMovement : MonoBehaviour
         {
             foreach (ContactPoint contact in collision.contacts)
             {
+                GameManager.Instamce.Score = contact.otherCollider.bounds.size.y;
+
                 if (contact.normal == Vector3.up)
 
                 { state2 = VerticalState.ground; slide = false; speed = GameManager.Instamce.originalSpeed; }
@@ -46,11 +48,11 @@ public class CharacterMovement : MonoBehaviour
                 {
                     break;
                 }
-                else if (contact.point.y< collision.transform.position.y)
+                else if (contact.point.y<=(collision.transform.position.y-(contact.otherCollider.bounds.size.y/2))+0.6f && collision.transform.name != "airwall")
                 {
                     state2 = VerticalState.wallben;
-                    rb.velocity = Vector3.zero;
-                    slide = false;
+
+                   // slide = false;
                     speed = 0;
                 }
                 else
@@ -77,26 +79,35 @@ public class CharacterMovement : MonoBehaviour
   
         if (collision.gameObject.layer == 6&&collision.transform.tag=="wall")
         {
-            if (collision.transform.name == "roof")
-            { 
-                state2 = VerticalState.ground;
-                slide = false;
-            }
-            else if (collision.transform.name == "wallben")
-            {
-                state2 = VerticalState.wallben;
-                rb.velocity = Vector3.zero;
-                slide = false;
-                speed = 0;
 
-            }
-            else
+            foreach (ContactPoint contact in collision.contacts)
             {
-                state2 = VerticalState.wall;
-                slide = true;
+                GameManager.Instamce.Score = contact.otherCollider.bounds.size.y;
+
+                if (contact.normal == Vector3.up)
+
+                { state2 = VerticalState.ground; slide = false; speed = GameManager.Instamce.originalSpeed; }
+                else if (contact.normal == Vector3.down)
+                {
+                    break;
+                }
+                else if (contact.point.y <= (collision.transform.position.y - (contact.otherCollider.bounds.size.y / 2)) + 0.6f&&collision.transform.name!="airwall")
+                {
+                    state2 = VerticalState.wallben;
+                    rb.velocity = Vector3.zero;
+                    slide = false;
+                    speed = 0;
+                }
+                else
+                {
+                    state2 = VerticalState.wall;
+                    slide = true;
+                }
+              //  print(contact.otherCollider + contact.point.ToString() + contact.normal.ToString());
+                // Visualize the contact point
+                //  Debug.DrawRay(contact.point, contact.normal, Color.white);
             }
-            
-           
+
         }
 
     }
@@ -114,15 +125,16 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (slide == true) { pm.dynamicFriction = 10; }
+        if (slide == true) { pm.dynamicFriction = 5; }
         if (slide == false) { pm.dynamicFriction = 0.6f; }
         //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
-       // if (state2 == VerticalState.ground) { speed = GameManager.Instamce.originalSpeed; }
+        if (state2 == VerticalState.ground) { speed = GameManager.Instamce.originalSpeed; }
         if (Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
         {
             if (state2 == VerticalState.wallben) 
             {
                 rb.AddForce(jumoForce * new Vector3(0, .5f, 0));
+                state2 = VerticalState.wall;
                 
             }
             else
