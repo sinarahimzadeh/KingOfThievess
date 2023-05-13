@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 
 public class CharacterMovement : MonoBehaviour
 {
+    
     public static CharacterMovement instance; 
     public enum HorizontalState {right , left  }
      public HorizontalState state;
@@ -18,7 +19,6 @@ public class CharacterMovement : MonoBehaviour
     public  float speed, jumoForce;
     [SerializeField] bool slide;
     public PhysicMaterial pm;
-
     // Start is called before the first frame update
     private void Awake()
     {
@@ -35,23 +35,35 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        //when lands on top of the wall.
-        if (collision.gameObject.layer == 6 && collision.transform.tag == "wall")
+        if (collision.transform.tag == "wall"&&collision.gameObject.layer == 6)
         {
-            if (collision.transform.name == "roof")
-            { state2 = VerticalState.ground; }
-            else if (collision.transform.name == "wallben")
+            foreach (ContactPoint contact in collision.contacts)
             {
-                state2 = VerticalState.wallben;
-                
-            }
-            else 
-            {
-                state2 = VerticalState.wall;
-                slide = true;
-            }
+                if (contact.normal == Vector3.up)
 
+                { state2 = VerticalState.ground; slide = false; speed = GameManager.Instamce.originalSpeed; }
+                else if (contact.normal == Vector3.down) 
+                {
+                    break;
+                }
+                else if (contact.point.y< collision.transform.position.y)
+                {
+                    state2 = VerticalState.wallben;
+                    rb.velocity = Vector3.zero;
+                    slide = false;
+                    speed = 0;
+                }
+                else
+                {
+                    state2 = VerticalState.wall;
+                    slide = true;
+                }
+                print(contact.otherCollider + contact.point.ToString() + contact.normal.ToString());
+                // Visualize the contact point
+                //  Debug.DrawRay(contact.point, contact.normal, Color.white);
+            }
         }
+       
 
         // when it is on the ground
         else if (collision.gameObject.layer == 6 && collision.transform.tag == "ground")
@@ -59,12 +71,10 @@ public class CharacterMovement : MonoBehaviour
         }
         
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
+   
     private void OnCollisionEnter(Collision collision)
     {
+  
         if (collision.gameObject.layer == 6&&collision.transform.tag=="wall")
         {
             if (collision.transform.name == "roof")
@@ -107,7 +117,7 @@ public class CharacterMovement : MonoBehaviour
         if (slide == true) { pm.dynamicFriction = 10; }
         if (slide == false) { pm.dynamicFriction = 0.6f; }
         //  if (rb.velocity.y > rbVelLimit.y) { rb.velocity = new Vector3(rb.velocity.x,rbVelLimit.y,rb.velocity.z); }
-        if (state2 == VerticalState.ground) { speed = GameManager.Instamce.originalSpeed; }
+       // if (state2 == VerticalState.ground) { speed = GameManager.Instamce.originalSpeed; }
         if (Input.GetMouseButtonDown(0) && GameManager.Instamce._gameState == GameManager.GameState.game&& state2!= VerticalState.air)
         {
             if (state2 == VerticalState.wallben) 

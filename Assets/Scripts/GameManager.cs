@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // tp.text = CharacterMovement.instance.state2.ToString() + ",,," +CharacterMovement.instance.pm.dynamicFriction.ToString();
-        tp.text = "Coins:" + Score.ToString();
+         tp.text = CharacterMovement.instance.state2.ToString();
+      //  tp.text = "Coins:" + Score.ToString();
         if (Input.GetMouseButtonDown(0)) 
         {
             _gameState = GameState.game;
