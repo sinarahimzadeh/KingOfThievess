@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             _gameState = GameState.game;
         }
         if (_gameState == GameState.finish)     
-       {
+          {
             
         }
         if (timer == 0) { Invoke("Finish", 3); }

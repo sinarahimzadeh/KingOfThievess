@@ -32,7 +32,13 @@ public class CharacterMovement : MonoBehaviour
         instance = this; 
         state = HorizontalState.right; 
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "saw") 
+        {
+            GameManager.Instamce._gameState = GameManager.GameState.finish;
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
         if (collision.transform.tag == "wall"&&collision.gameObject.layer == 6)

@@ -8,6 +8,7 @@ TagManager:
   - ground
   - coin
   - spawner
+  - saw
   layers:
   - Default
   - TransparentFX
