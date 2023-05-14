@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         tpTimer.text = timer.ToString();
         if (Input.GetMouseButtonDown(0)) 
         {
-            if(counter<=initialCounter-1)
+            if(counter<=initialCounter-1&&_gameState!=GameState.finish)
             _gameState = GameState.game;
         }
         if (_gameState == GameState.finish)     
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
             Invoke("Die",1);
             
         }
-        if (timer == 2) { Invoke("Finish", 3); }
+        if (timer == 2) { Invoke("Die", 1); }
     }
     void Die() 
     {

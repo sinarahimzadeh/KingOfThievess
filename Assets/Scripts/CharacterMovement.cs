@@ -69,7 +69,6 @@ public class CharacterMovement : MonoBehaviour
                     state2 = VerticalState.wall;
                     slide = true;
                 }
-                print(contact.otherCollider + contact.point.ToString() + contact.normal.ToString());
                 // Visualize the contact point
                 //  Debug.DrawRay(contact.point, contact.normal, Color.white);
             }
